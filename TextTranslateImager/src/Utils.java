@@ -43,16 +43,14 @@ public class Utils {
 		return listeRGB;
 	}
 	
-	public static BufferedImage createImage(int width, int height, List<Integer> listConvertedWord){
+	public static BufferedImage createImage(int width, int height, int[][] matriceRGB){
 
 	    int imageType = BufferedImage.TYPE_INT_RGB;
 	    BufferedImage Image = new BufferedImage(width,height,imageType);
 
 	    for(int i=0 ; i<width ; i++){
 	        for(int j=0 ; j<height ; j++){
-	        	if(listConvertedWord.size() > i*height+j) {
-	        		Image.setRGB(i, j, listConvertedWord.get(i*height+j));
-	        	}
+	        	Image.setRGB(i, j, matriceRGB[i][j]);
 	        }
 	    }
 

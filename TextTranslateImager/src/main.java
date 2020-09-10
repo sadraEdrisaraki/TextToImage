@@ -24,7 +24,8 @@ public class main {
 		List<Integer> listeRGB = Utils.convertStringToRGB(listeMotsConcatene);
 		int imageSize = (int) Math.ceil(Math.sqrt(listeRGB.size()));
 		int[][] matriceRGB = Utils.listToArray(listeRGB , imageSize);
-		BufferedImage image = Utils.createImage(imageSize , imageSize , listeRGB);
+		
+		BufferedImage image = Utils.createImage(imageSize , imageSize , matriceRGB);
 		Utils.saveImage(image);
 		
 		Utils.printNbrColor();
