@@ -1,0 +1,25 @@
+
+public class Filter {
+	
+	public Filter() {}
+	
+	
+	
+	public static int[][] repeupler(int[][] matriceRGB , int nombrePixelEntre){
+		int tailleX = (matriceRGB.length*2)-1;
+		int tailleY = (matriceRGB[0].length*2)-1;
+		int[][] matriceRGBFinal = new int[tailleX][tailleY];
+		
+		for(int i = 0 ; i < matriceRGB.length ; i++) {
+			for(int j = 0 ; i < matriceRGB[0].length ; j++) {
+				
+			}
+		}
+		
+		return matriceRGB;
+		
+	}
+	
+	
+
+}

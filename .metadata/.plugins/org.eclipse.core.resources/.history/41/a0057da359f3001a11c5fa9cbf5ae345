@@ -1,0 +1,126 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
+public class Utils {
+	
+	static int nbrRouge, nbrVert, nbrBleu = 0;
+	
+	public Utils() {};
+	
+	
+	public static List<Integer> convertStringToRGB(String listeMotsConcatene) {
+		List<Integer> listeRGB = new ArrayList<Integer>();
+		int[] placeur = new int[3];
+		int indicePlaceur = 0;
+		
+		for(int i = 0 ; i < listeMotsConcatene.length() ; i++) {
+			placeur[indicePlaceur] = (int) listeMotsConcatene.charAt(i);
+			indicePlaceur++;
+			if(indicePlaceur == 3) {
+				
+				if(placeur[0] > placeur[1] && placeur[0] > placeur[2])nbrRouge++;
+				if(placeur[1] > placeur[0] && placeur[1] > placeur[2])nbrVert++;
+				if(placeur[2] > placeur[0] && placeur[2] > placeur[1])nbrBleu++;
+				
+				indicePlaceur = 0;
+				placeur[0] = placeur[0]*1000000;
+				placeur[1] = placeur[1]*1000;
+				
+				int rgb = placeur[0]+placeur[1]+placeur[2];
+				listeRGB.add(rgb);
+				placeur[0] = 0;
+				placeur[1] = 0;
+				placeur[2] = 0;
+			}
+		}
+		return listeRGB;
+	}
+	
+	public static BufferedImage createImage(int width, int height, List<Integer> listConvertedWord){
+
+	    int imageType = BufferedImage.TYPE_INT_RGB;
+	    BufferedImage Image = new BufferedImage(width,height,imageType);
+
+	    for(int i=0 ; i<width ; i++){
+	        for(int j=0 ; j<height ; j++){
+	        	if(listConvertedWord.size() > i*height+j) {
+	        		Image.setRGB(i, j, listConvertedWord.get(i*height+j));
+	        	}
+	        }
+	    }
+
+	    return Image;
+	}
+	
+	public static void saveImage(BufferedImage Image){
+	    String nomFichierBase = "image";
+	    String nomFichier = nomFichierBase+".jpg";
+	    Integer numberFile = 0;
+
+	    while(Files.exists(Paths.get(nomFichier))){
+	        numberFile++;
+	        nomFichier = nomFichierBase+ numberFile.toString() +".jpg";
+	    }
+
+	    File outputfile = new File("image.jpg");
+	    try {
+			ImageIO.write(Image, "jpg", outputfile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static String remplacerCaractereSpeciaux(List<String> listeMots) {
+		
+		String replacementTotal = "";
+		for(String index : listeMots) {
+			String replacement = decompose(index);
+			replacementTotal+=replacement;
+
+		}
+		replacementTotal = replacementTotal.replaceAll("\\s+","");
+		return replacementTotal;
+	}
+	
+	public static String decompose(String s) {
+	    return java.text.Normalizer.normalize(s, java.text.Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+","");
+	}
+
+	public static List<String> lireTexteToString(){
+		
+		List<String> listeMots = null;
+		try {
+			listeMots = Files.readAllLines(Paths.get("texte.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return listeMots;
+		
+	}
+
+	public int[][] listToArray(List<String> listeRGB , int taille){
+		
+		int[][] matriceRGB = new int[taille][taille];
+		
+		
+		
+		return matriceRGB;
+		
+	}
+	
+	public static void printNbrColor() {
+		
+		System.out.println("Nombre de pixel rouge = " + Utils.nbrRouge);
+		System.out.println("Nombre de pixel vert = " + Utils.nbrVert);
+		System.out.println("Nombre de pixel bleu = " + Utils.nbrBleu);
+		
+	}
+}

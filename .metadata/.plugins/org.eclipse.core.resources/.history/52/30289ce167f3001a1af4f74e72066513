@@ -1,0 +1,23 @@
+
+public class Filter {
+	
+	public Filter() {}
+	
+	
+	
+	public static int[][] lissage(int[][] matriceRGB){
+		int tailleX = (matriceRGB.length*2)-1;
+		int tailleY = 0;
+		int[][] matriceRGBFinal = new int[matriceRGB.length][matriceRGB[0].length];
+		
+		for(int i = 0 ; i < matriceRGB.length ; i++) {
+			
+		}
+		
+		return matriceRGB;
+		
+	}
+	
+	
+
+}

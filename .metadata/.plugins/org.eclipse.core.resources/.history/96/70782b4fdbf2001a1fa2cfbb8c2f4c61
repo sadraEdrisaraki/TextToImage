@@ -1,0 +1,125 @@
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
+public class main {
+
+	static int nbrRouge, nbrVert, nbrBleu = 0;
+	
+
+	public static void main(String[] args) {
+		
+		System.out.println("Debut du logiciel de traduction de texte en image");
+		System.out.println("Vérification du fichier texte");
+		
+		List<String> listeMots = lireTexteToString();
+		String listeMotsConcatene = remplacerCaractereSpeciaux(listeMots);
+		List<Integer> listeRGB = convertStringToRGB(listeMotsConcatene);
+		int imageSize = (int) Math.ceil(Math.sqrt(listeRGB.size()));
+		BufferedImage image = createImage(imageSize , imageSize , listeRGB);
+		saveImage(image);
+		
+		 
+
+	}
+	
+	private static List<Integer> convertStringToRGB(String listeMotsConcatene) {
+		List<Integer> listeRGB = new ArrayList<Integer>();
+		int[] placeur = new int[3];
+		int indicePlaceur = 0;
+		
+		for(int i = 0 ; i < listeMotsConcatene.length() ; i++) {
+			placeur[indicePlaceur] = (int) listeMotsConcatene.charAt(i);
+			indicePlaceur++;
+			if(indicePlaceur == 3) {
+				
+				if(placeur[0] > placeur[1] && placeur[0] > placeur[2])nbrRouge++;
+				
+				indicePlaceur = 0;
+				placeur[0] = placeur[0]*1000000;
+				placeur[1] = placeur[1]*1000;
+				
+				int rgb = placeur[0]+placeur[1]+placeur[2];
+				listeRGB.add(rgb);
+				placeur[0] = 0;
+				placeur[1] = 0;
+				placeur[2] = 0;
+			}
+		}
+		return listeRGB;
+	}
+	
+	private static BufferedImage createImage(int width, int height, List<Integer> listConvertedWord){
+
+	    int imageType = BufferedImage.TYPE_INT_RGB;
+	    BufferedImage Image = new BufferedImage(width,height,imageType);
+
+	    for(int i=0 ; i<width ; i++){
+	        for(int j=0 ; j<height ; j++){
+	        	if(listConvertedWord.size() > i*height+j) {
+	        		Image.setRGB(i, j, listConvertedWord.get(i*height+j));
+	        	}
+	        }
+	    }
+
+	    return Image;
+	}
+	
+	private static void saveImage(BufferedImage Image){
+	    String nomFichierBase = "image";
+	    String nomFichier = nomFichierBase+".jpg";
+	    Integer numberFile = 0;
+
+	    while(Files.exists(Paths.get(nomFichier))){
+	        numberFile++;
+	        nomFichier = nomFichierBase+ numberFile.toString() +".jpg";
+	    }
+
+	    File outputfile = new File("image.jpg");
+	    try {
+			ImageIO.write(Image, "jpg", outputfile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+
+	private static String remplacerCaractereSpeciaux(List<String> listeMots) {
+		
+		String replacementTotal = "";
+		for(String index : listeMots) {
+			String replacement = decompose(index);
+			replacementTotal+=replacement;
+
+		}
+		replacementTotal = replacementTotal.replaceAll("\\s+","");
+		return replacementTotal;
+	}
+	
+	public static String decompose(String s) {
+	    return java.text.Normalizer.normalize(s, java.text.Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+","");
+	}
+
+	private static List<String> lireTexteToString(){
+		
+		List<String> listeMots = null;
+		try {
+			listeMots = Files.readAllLines(Paths.get("texte.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return listeMots;
+		
+	}
+	
+
+}

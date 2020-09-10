@@ -1,0 +1,37 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Utils {
+	
+	public Utils() {};
+	
+	
+	private static List<Integer> convertStringToRGB(String listeMotsConcatene) {
+		List<Integer> listeRGB = new ArrayList<Integer>();
+		int[] placeur = new int[3];
+		int indicePlaceur = 0;
+		
+		for(int i = 0 ; i < listeMotsConcatene.length() ; i++) {
+			placeur[indicePlaceur] = (int) listeMotsConcatene.charAt(i);
+			indicePlaceur++;
+			if(indicePlaceur == 3) {
+				
+				if(placeur[0] > placeur[1] && placeur[0] > placeur[2])nbrRouge++;
+				if(placeur[1] > placeur[0] && placeur[1] > placeur[2])nbrVert++;
+				if(placeur[2] > placeur[0] && placeur[2] > placeur[1])nbrBleu++;
+				
+				indicePlaceur = 0;
+				placeur[0] = placeur[0]*1000000;
+				placeur[1] = placeur[1]*1000;
+				
+				int rgb = placeur[0]+placeur[1]+placeur[2];
+				listeRGB.add(rgb);
+				placeur[0] = 0;
+				placeur[1] = 0;
+				placeur[2] = 0;
+			}
+		}
+		return listeRGB;
+	}
+
+}
