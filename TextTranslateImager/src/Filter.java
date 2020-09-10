@@ -24,6 +24,6 @@ public class Filter {
 		
 	}
 	
-	
+	public static int[][] test(){ return null;}
 
 }
