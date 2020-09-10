@@ -120,6 +120,16 @@ public class Utils {
 		
 	}
 	
+	public static int nbrElement(int[][] matriceRGB) {
+		int compteur = 0;
+		for(int i = 0 ; i < matriceRGB.length ; i++) {
+			for(int j = 0 ; j < matriceRGB[i].length ; j++) {
+				compteur++;
+			}
+		}
+		return compteur;
+	}
+	
 	public static void printNbrColor() {
 		
 		System.out.println("Nombre de pixel rouge = " + Utils.nbrRouge);

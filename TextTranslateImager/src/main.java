@@ -24,11 +24,11 @@ public class main {
 		List<Integer> listeRGB = Utils.convertStringToRGB(listeMotsConcatene);
 		int imageSize = (int) Math.ceil(Math.sqrt(listeRGB.size()));
 		int[][] matriceRGB = Utils.listToArray(listeRGB , imageSize);
-		
+		matriceRGB = Filter.repeupler(matriceRGB,1500);
+		imageSize = (int) Math.ceil(Math.sqrt(Utils.nbrElement(matriceRGB)));
 		BufferedImage image = Utils.createImage(imageSize , imageSize , matriceRGB);
 		Utils.saveImage(image);
 		
-		Utils.printNbrColor();
 		System.out.println("Fini");
 		 
 
