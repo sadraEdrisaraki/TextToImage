@@ -29,11 +29,13 @@ public class main {
 		listeRGB = Utils.convertStringToRGB(listeMotsConcatene);
 		int imageSize = (int) Math.ceil(Math.sqrt(listeRGB.size()));
 		int[][] matriceRGB = Utils.listToArray(listeRGB , imageSize);
-		//matriceRGB = Filter.repeupler(matriceRGB,1500);
+		//matriceRGB = Filter.repeupler(matriceRGB,2);
 		
 		imageSize = (int) Math.ceil(Math.sqrt(Utils.nbrElement(matriceRGB)));
 		image = Utils.createImage(imageSize , imageSize , matriceRGB);
-		Filter.smoother(image, 90, 30 , 13);
+		Filter.smoother(image, 100, 10 , 1);
+		Filter.agglutiner(image, new Coordinate());
+		
 		Utils.saveImage(image);
 		
 		System.out.println("Fini");
